@@ -1,0 +1,18 @@
+class Solution {
+public:
+    TreeNode* solve(TreeNode* t) {
+        if(t == NULL) return NULL;
+        t->left = solve(t->left);
+        t->right = solve(t->right);
+        if(!t->left && !t->right && t->val == 0) {
+            delete t;
+            return NULL;
+        }
+        return t;
+    }
+    
+    TreeNode* pruneTree(TreeNode* root) {
+        root = solve(root);
+        return root;
+    }
+};
