@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool equationsPossible(vector<string>& equations) {
+        vector<vector<int>> mat(26, vector<int>(26,0));
+        int n = equations.size();
+        
+        for(int i=0;i<26;i++) {
+            mat[i][i] = 1;
+        }
+        
+        for(int i=0;i<n;i++) {
+            if(equations[i][1] == '=') {
+                int a = equations[i][0] - 'a';
+                int b = equations[i][3] - 'a';
+                mat[a][b] = mat[b][a] = 1;
+            }
+            else 
+                continue;
+        }
+        
+        for(int i=0;i<26;i++) {
+            for(int j=0;j<26;j++) {
+                if(mat[i][j] == 1) {
+                    for(int k=0;k<26;k++) {
+                        if(mat[j][k] == 1) {
+                            mat[i][k] = mat[k][i] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        
+        for(int i=0;i<n;i++) {
+            if(equations[i][1] == '!') {
+                int a = equations[i][0] - 'a';
+                int b = equations[i][3] - 'a';
+                if(mat[a][b] == 1) 
+                    return false;
+            }
+        }
+        
+        return true;
+    }
+};
