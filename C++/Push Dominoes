@@ -1,0 +1,37 @@
+class Solution {
+public:
+    string pushDominoes(string dominoes) {
+        int n = dominoes.size();
+        
+        // left is l, right is r
+        int l=0, r=0;
+        for(int r=0;r<n;r++) {
+            if(dominoes[r] == '.') continue;
+            // left and right are same -> fill all 
+            else if((dominoes[l] == dominoes[r]) || (dominoes[l] == '.' && dominoes[r] == 'L')) {
+                for(int i=l;i<r;i++) {
+                    dominoes[i] = dominoes[r];
+                }
+            }
+            // left is L and right is R -> continue
+            else if(dominoes[l] == 'L' && dominoes[r] == 'R') {}
+            // opposite of above -> upto mid same elements; if odd-> becomes .
+            else if(dominoes[l] == 'R' && dominoes[r] == 'L') {
+                // if range length odd, mid is .
+                int m = (r-l-1)/2;
+                for(int i=1;i<=m;i++) {
+                    dominoes[l+i] = 'R';
+                    dominoes[r-i] = 'L';
+                }
+            }
+            l = r;
+        }
+        if(dominoes[l] == 'R') {
+            for(int i=l;i<n;i++) {
+                dominoes[i] = 'R';
+            }
+        }
+        
+        return dominoes;
+    }
+};
